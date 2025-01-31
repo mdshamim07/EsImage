@@ -1,0 +1,22 @@
+{
+  "name": "esimage",
+  "version": "1.0.0",
+  "main": "esImageUpload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdshamim07/EsImage.git"
+  },
+  "keywords": [
+    "EsImage"
+  ],
+  "author": "Md Shamim Mia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdshamim07/EsImage/issues"
+  },
+  "homepage": "https://github.com/mdshamim07/EsImage#readme",
+  "description": "EsImage Tool is a simple and efficient image uploading solution for Next.js projects. It provides seamless integration for handling image uploads, making it easier to manage and store images in your application."
+}
