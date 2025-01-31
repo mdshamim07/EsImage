@@ -9,9 +9,10 @@ EsImage Tool is a simple and efficient image uploading solution for Next.js proj
 ## Main Feature
 
 | Feature        | Description                               |
-| -------------- | ----------------------------------------- | --- |
-| Upload Support | Supports various image formats.           |     |
+| -------------- | ----------------------------------------- |
+| Upload Support | Supports various image formats.           |
 | Customizable   | Allows customization based on your needs. |
+
 
 ## Installation
 
