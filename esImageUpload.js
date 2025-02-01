@@ -6,12 +6,12 @@ import path from "path";
 const UPLOAD_DIR = path.join(process.cwd(), "public/uploads");
 
 // Ensure upload directory exists
-async function ensureUploadDirExists() {
-  await fs.mkdir(UPLOAD_DIR, { recursive: true }).catch(() => {}); // Ignore errors if it already exists
+async function ensureUploadDirExists(baseDir = undefined) {
+  await fs.mkdir(baseDir || UPLOAD_DIR, { recursive: true }).catch(() => { }); // Ignore errors if it already exists
 }
 
 // Helper function to save a Base64 image
-async function saveBase64Image(base64Image, index = "") {
+async function saveBase64Image(base64Image, index = "", baseDir = undefined) {
   const match = base64Image.match(
     /^data:image\/(png|jpeg|jpg|gif);base64,(.+)$/
   );
@@ -20,22 +20,27 @@ async function saveBase64Image(base64Image, index = "") {
   const ext = match[1]; // Extract file extension
   const base64Data = match[2]; // Extract Base64 data
   const fileName = `${Date.now()}${index ? `-${index}` : ""}.${ext}`; // Unique filename
-  const filePath = path.join(UPLOAD_DIR, fileName); // Full file path
+  const filePath = path.join(baseDir || UPLOAD_DIR, fileName); // Full file path
 
   // Write the file to the filesystem
   await fs.writeFile(filePath, base64Data, "base64");
 
-  return `/uploads/${fileName}`; // Return file URL
+  return baseDir ? `${baseDir}/${fileName}` : `/uploads/${fileName}`; // Return file URL
 }
 
 // Handle single image upload
-export async function uploadSingleImage(image) {
+export async function uploadSingleImage(image, options) {
   try {
-    await ensureUploadDirExists(); // Ensure upload directory exists
     if (!image || typeof image !== "string")
       throw new Error("Invalid image format");
 
-    const fileUrl = await saveBase64Image(image); // Save the image
+    if (options && options.baseDir) {
+      await ensureUploadDirExists(options.baseDir)
+      const fileUrl = await saveBase64Image(image, "", options.baseDir); // Save the image
+    } else {
+      await ensureUploadDirExists(); // Ensure upload directory exists
+      const fileUrl = await saveBase64Image(image); // Save the image
+    }
 
     return {
       ok: true,
